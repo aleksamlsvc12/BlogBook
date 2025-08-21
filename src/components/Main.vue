@@ -195,15 +195,22 @@ const handleLogOut = () => {
     </div>
 
     <!-- CONTENT DIV -->
-    <div v-else class="bg-red-200">
-      <p class="text-2xl font-bold">Welcome {{ username }}</p>
+    <div v-else class="w-[90%] sm:w-[95%] h-[90%] flex flex-col">
+      <div class="flex items-center justify-between bg-white rounded-2xl p-4">
+        <p class="text-3xl font-bold">Welcome {{ username }}</p>
 
-      <button
-        @click="handleLogOut"
-        class="bg-red-600 text-white p-2 rounded mt-4"
-      >
-        Logout
-      </button>
+        <button
+          @click="handleLogOut"
+          class="bg-blue-600 text-white font-bold cursor-pointer text-sm p-2 pl-6 pr-6 rounded-full"
+        >
+          Logout
+        </button>
+      </div>
+
+      <div class="w-full bg-white rounded-2xl mt-8 h-full">
+
+      </div>
+
     </div>
   </div>
 </template>
