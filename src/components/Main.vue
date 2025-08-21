@@ -12,6 +12,8 @@ let signupUsername = ref("");
 let signupEmail = ref("");
 let signupPassword = ref("");
 
+let isLoggedIn = ref(false);
+
 const handleSignUp = async () => {
   try {
     const res = await axios.post("http://localhost:3000/signup", {
@@ -19,7 +21,7 @@ const handleSignUp = async () => {
       email: signupEmail.value,
       password: signupPassword.value,
     });
-    //console.log(res.data);
+    console.log(res.data);
     alert('Signup Succesfull!');
 
     signupUsername.value = "";
@@ -41,8 +43,10 @@ const handleLogIn= async () => {
       username: loginUsername.value,
       password: loginPassword.value,
     });
-    //console.log(res.data);
+    console.log(res.data);
     alert('Login Succesfull!');
+
+    isLoggedIn.value = true;
 
     loginUsername.value = "";
     loginPassword.value = "";
@@ -58,6 +62,7 @@ const handleLogIn= async () => {
 
 <template>
   <div class="h-full bg-gray-200 flex justify-center items-center">
+
     <!-- SIGN UP DIV -->
     <div
       class="w-[80%] sm:w-[25%] h-[80%] bg-white shadow-xl rounded-2xl flex flex-col justify-between p-10"
@@ -116,7 +121,7 @@ const handleLogIn= async () => {
     <!-- LOG IN DIV -->
     <div
       class="w-[80%] sm:w-[25%] h-[80%] bg-white shadow-xl rounded-2xl flex flex-col justify-between p-10"
-      v-else
+      v-else-if="!showDiv && !isLoggedIn"
     >
       <p class="text-3xl font-bold text-center">Log In</p>
 
@@ -159,6 +164,11 @@ const handleLogIn= async () => {
         </button>
       </form>
     </div>
+
+    <div v-else>
+      Noice
+    </div>
+
   </div>
 </template>
 
