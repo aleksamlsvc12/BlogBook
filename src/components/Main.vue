@@ -14,15 +14,24 @@ let signupPassword = ref("");
 
 let isLoggedIn = ref(false);
 
+let username = ref("");
+
 onMounted(() => {
   const storedLogin = localStorage.getItem("isLoggedIn");
-  if (storedLogin === "true") {
+  const storedUsername = localStorage.getItem("username");
+
+  if (storedLogin === "true" && storedUsername) {
     isLoggedIn.value = true;
+    username.value = storedUsername;
   }
 });
 
 watch(isLoggedIn, (newVal) => {
   localStorage.setItem("isLoggedIn", newVal);
+});
+
+watch(username, (newVal) => {
+  localStorage.setItem("username", newVal);
 });
 
 const handleSignUp = async () => {
@@ -59,7 +68,8 @@ const handleLogIn = async () => {
 
     isLoggedIn.value = true;
 
-    // loginUsername.value = "";
+    username.value = loginUsername.value;
+    loginUsername.value = "";
     loginPassword.value = "";
   } catch (err) {
     if (err.response) {
@@ -186,9 +196,7 @@ const handleLogOut = () => {
 
     <!-- CONTENT DIV -->
     <div v-else class="bg-red-200">
-      <p class="text-2xl font-bold">
-        Welcome {{ loginUsername }}
-      </p>
+      <p class="text-2xl font-bold">Welcome {{ username }}</p>
 
       <button
         @click="handleLogOut"
