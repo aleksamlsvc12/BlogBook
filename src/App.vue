@@ -1,4 +1,13 @@
-<template>
-  <div class="text-red-500 font-bold">API INTEGRATION</div>
-</template>
+<script setup>
+import Header from "./components/Header.vue";
+import Main from "./components/Main.vue";
+import Footer from "./components/Footer.vue";
+</script>
 
+<template>
+  <div class="flex flex-col h-screen">
+    <Header></Header>
+    <Main></Main>
+    <Footer></Footer>
+  </div>
+</template>
