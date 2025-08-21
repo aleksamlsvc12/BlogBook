@@ -5,6 +5,9 @@ import axios from "axios";
 let showDiv = ref(false);
 let showPassword = ref(false);
 
+let loginUsername = ref("");
+let loginPassword = ref("");
+
 let signupUsername = ref("");
 let signupEmail = ref("");
 let signupPassword = ref("");
@@ -16,7 +19,25 @@ const handleSignUp = async () => {
       email: signupEmail.value,
       password: signupPassword.value,
     });
-    console.log(res.data);
+    //console.log(res.data);
+    alert('Signup Succesfull!');
+  } catch (err) {
+    if (err.response) {
+      console.error(err.response.data);
+    } else {
+      console.error(err.message);
+    }
+  }
+};
+
+const handleLogIn= async () => {
+  try {
+    const res = await axios.post("http://localhost:3000/login", {
+      username: loginUsername.value,
+      password: loginPassword.value,
+    });
+    //console.log(res.data);
+    alert('Login Succesfull!');
   } catch (err) {
     if (err.response) {
       console.error(err.response.data);
@@ -91,11 +112,11 @@ const handleSignUp = async () => {
     >
       <p class="text-3xl font-bold text-center">Log In</p>
 
-      <form action="" class="flex flex-col h-[80%] justify-between">
+      <form @submit.prevent="handleLogIn" action="" class="flex flex-col h-[80%] justify-between">
         <div class="flex flex-col gap-5">
           <div>
             <label for="username">Username:</label>
-            <input type="text" />
+            <input type="text" v-model="loginUsername"/>
           </div>
 
           <div>
@@ -104,7 +125,8 @@ const handleSignUp = async () => {
               <input
                 :type="showPassword ? 'text' : 'password'"
                 class="bigger-padding-right"
-              />
+                v-model="loginPassword"
+                />
               <i
                 class="pi absolute top-1/3 right-3 cursor-pointer"
                 :class="showPassword ? 'pi-eye-slash' : 'pi-eye'"
@@ -122,6 +144,7 @@ const handleSignUp = async () => {
         </div>
 
         <button
+          type="submit"
           class="bg-blue-600 text-white font-bold p-4 rounded-full cursor-pointer"
         >
           Log In
