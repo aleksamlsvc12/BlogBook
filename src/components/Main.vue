@@ -1,8 +1,33 @@
 <script setup>
 import { ref } from "vue";
+import axios from "axios";
 
 let showDiv = ref(false);
 let showPassword = ref(false);
+
+let signupUsername = ref('');
+let signupEmail = ref('');
+let signupPassword = ref('');
+
+const handleSignUp = async () => {
+ try {
+  const res = await axios.post('http://localhost:3000/signup', {
+    username: signupUsername.value,
+    email: signupEmail.value,
+    password: signupPassword.value,
+  });
+  console.log(res.data);
+} catch (err) {
+  if (err.response) {
+    // greška sa servera (status 4xx ili 5xx)
+    console.error(err.response.data);
+  } else {
+    // mrežna greška ili server nedostupan
+    console.error(err.message);
+  }
+}
+
+};
 </script>
 
 <template>
@@ -14,16 +39,16 @@ let showPassword = ref(false);
     >
       <p class="text-3xl font-bold text-center">Sing Up</p>
 
-      <form action="" class="flex flex-col h-[80%] justify-between">
+      <form @submit.prevent="handleSignUp" class="flex flex-col h-[80%] justify-between">
         <div class="flex flex-col gap-5">
           <div>
             <label for="username">Username:</label>
-            <input type="text" />
+            <input type="text" v-model="signupUsername"/>
           </div>
 
           <div>
-            <label for="email">Email:</label>
-            <input type="text" />
+            <label for="email ">Email:</label>
+            <input type="text" v-model="signupEmail"/>
           </div>
 
           <div>
@@ -32,7 +57,8 @@ let showPassword = ref(false);
               <input
                 :type="showPassword ? 'text' : 'password'"
                 class="bigger-padding-right"
-              />
+                v-model="signupPassword"
+                />
               <i
                 class="pi absolute top-1/3 right-3 cursor-pointer"
                 :class="showPassword ? 'pi-eye-slash' : 'pi-eye'"
@@ -49,7 +75,7 @@ let showPassword = ref(false);
           </div>
         </div>
 
-        <button
+        <button type="submit"
           class="bg-blue-600 text-white font-bold p-4 rounded-full cursor-pointer"
         >
           Sing Up
