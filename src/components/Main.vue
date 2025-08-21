@@ -21,6 +21,11 @@ const handleSignUp = async () => {
     });
     //console.log(res.data);
     alert('Signup Succesfull!');
+
+    signupUsername.value = "";
+    signupEmail.value = "";
+    signupPassword.value = "";
+    showDiv.value = false;
   } catch (err) {
     if (err.response) {
       console.error(err.response.data);
@@ -38,6 +43,9 @@ const handleLogIn= async () => {
     });
     //console.log(res.data);
     alert('Login Succesfull!');
+
+    loginUsername.value = "";
+    loginPassword.value = "";
   } catch (err) {
     if (err.response) {
       console.error(err.response.data);
