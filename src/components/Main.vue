@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 
 let showDiv = ref(false);
@@ -14,6 +14,17 @@ let signupPassword = ref("");
 
 let isLoggedIn = ref(false);
 
+onMounted(() => {
+  const storedLogin = localStorage.getItem("isLoggedIn");
+  if (storedLogin === "true") {
+    isLoggedIn.value = true;
+  }
+});
+
+watch(isLoggedIn, (newVal) => {
+  localStorage.setItem("isLoggedIn", newVal);
+});
+
 const handleSignUp = async () => {
   try {
     const res = await axios.post("http://localhost:3000/signup", {
@@ -22,7 +33,7 @@ const handleSignUp = async () => {
       password: signupPassword.value,
     });
     console.log(res.data);
-    alert('Signup Succesfull!');
+    alert("Signup Succesfull!");
 
     signupUsername.value = "";
     signupEmail.value = "";
@@ -37,18 +48,18 @@ const handleSignUp = async () => {
   }
 };
 
-const handleLogIn= async () => {
+const handleLogIn = async () => {
   try {
     const res = await axios.post("http://localhost:3000/login", {
       username: loginUsername.value,
       password: loginPassword.value,
     });
     console.log(res.data);
-    alert('Login Succesfull!');
+    alert("Login Succesfull!");
 
     isLoggedIn.value = true;
 
-    loginUsername.value = "";
+    // loginUsername.value = "";
     loginPassword.value = "";
   } catch (err) {
     if (err.response) {
@@ -58,11 +69,15 @@ const handleLogIn= async () => {
     }
   }
 };
+
+const handleLogOut = () => {
+  isLoggedIn.value = false;
+  localStorage.removeItem("isLoggedIn");
+};
 </script>
 
 <template>
   <div class="h-full bg-gray-200 flex justify-center items-center">
-
     <!-- SIGN UP DIV -->
     <div
       class="w-[80%] sm:w-[25%] h-[80%] bg-white shadow-xl rounded-2xl flex flex-col justify-between p-10"
@@ -125,11 +140,15 @@ const handleLogIn= async () => {
     >
       <p class="text-3xl font-bold text-center">Log In</p>
 
-      <form @submit.prevent="handleLogIn" action="" class="flex flex-col h-[80%] justify-between">
+      <form
+        @submit.prevent="handleLogIn"
+        action=""
+        class="flex flex-col h-[80%] justify-between"
+      >
         <div class="flex flex-col gap-5">
           <div>
             <label for="username">Username:</label>
-            <input type="text" v-model="loginUsername"/>
+            <input type="text" v-model="loginUsername" />
           </div>
 
           <div>
@@ -139,7 +158,7 @@ const handleLogIn= async () => {
                 :type="showPassword ? 'text' : 'password'"
                 class="bigger-padding-right"
                 v-model="loginPassword"
-                />
+              />
               <i
                 class="pi absolute top-1/3 right-3 cursor-pointer"
                 :class="showPassword ? 'pi-eye-slash' : 'pi-eye'"
@@ -165,10 +184,19 @@ const handleLogIn= async () => {
       </form>
     </div>
 
-    <div v-else>
-      Noice
-    </div>
+    <!-- CONTENT DIV -->
+    <div v-else class="bg-red-200">
+      <p class="text-2xl font-bold">
+        Welcome {{ loginUsername }}
+      </p>
 
+      <button
+        @click="handleLogOut"
+        class="bg-red-600 text-white p-2 rounded mt-4"
+      >
+        Logout
+      </button>
+    </div>
   </div>
 </template>
 
