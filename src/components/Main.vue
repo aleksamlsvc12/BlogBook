@@ -142,7 +142,7 @@ const handleLogOut = () => {
             </div>
 
             <p
-              class="text-sm mt-2 underline cursor-pointer"
+              class="text-sm mt-2 underline cursor-pointer inline-block"
               @click="showDiv = false"
             >
               Already have an account?
@@ -193,7 +193,7 @@ const handleLogOut = () => {
             </div>
 
             <p
-              class="text-sm mt-2 underline cursor-pointer"
+              class="text-sm mt-2 underline cursor-pointer inline-block"
               @click="showDiv = true"
             >
               Don't have an account?
