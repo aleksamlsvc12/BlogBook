@@ -34,6 +34,18 @@ watch(username, (newVal) => {
   localStorage.setItem("username", newVal);
 });
 
+//DELETES PREVIOUS DATA IN INPUT FIELDS
+watch(showDiv, (newVal) => {
+  if (newVal) {
+    loginUsername.value = "";
+    loginPassword.value = "";
+  }else{
+    signupUsername.value = "";
+    signupPassword.value = "";
+    signupEmail.value = "";
+  }
+});
+
 const handleSignUp = async () => {
   try {
     const res = await axios.post("http://localhost:3000/signup", {
@@ -51,8 +63,10 @@ const handleSignUp = async () => {
   } catch (err) {
     if (err.response) {
       console.error(err.response.data);
+      alert(err.response.data.error);
     } else {
       console.error(err.message);
+      alert("Connection error!");
     }
   }
 };
@@ -74,8 +88,10 @@ const handleLogIn = async () => {
   } catch (err) {
     if (err.response) {
       console.error(err.response.data);
+      alert(err.response.data.error);
     } else {
       console.error(err.message);
+      alert("Connection error!");
     }
   }
 };
@@ -207,10 +223,7 @@ const handleLogOut = () => {
         </button>
       </div>
 
-      <div class="w-full bg-white rounded-2xl mt-8 h-full">
-
-      </div>
-
+      <div class="w-full bg-white rounded-2xl mt-8 h-full"></div>
     </div>
   </div>
 </template>
