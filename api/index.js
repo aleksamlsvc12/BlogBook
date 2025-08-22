@@ -2,6 +2,7 @@ const express = require("express");
 const mysql = require("mysql2");
 const axios = require("axios");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 
 const app = express();
 app.use(express.json());
@@ -22,7 +23,7 @@ db.connect((err) => {
   }
 });
 
-app.post("/signup", (req, res) => {
+app.post("/signup", async (req, res) => {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
@@ -30,7 +31,7 @@ app.post("/signup", (req, res) => {
   }
 
   const checkQuery = "SELECT * FROM app_users WHERE email = ? OR username = ?";
-  db.query(checkQuery, [email, username], (err, results) => {
+  db.query(checkQuery, [email, username], async (err, results) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ error: "Database error" });
@@ -42,9 +43,12 @@ app.post("/signup", (req, res) => {
         .json({ error: "Email or username already exists" });
     }
 
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
     const insertQuery =
       "INSERT INTO app_users (username, email, pass) VALUES (?, ?, ?)";
-    db.query(insertQuery, [username, email, password], (err, results) => {
+    db.query(insertQuery, [username, email, hashedPassword], (err, results) => {
       if (err) {
         console.error(err);
         return res
@@ -59,22 +63,20 @@ app.post("/signup", (req, res) => {
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
-  if (!username || !password) {
+  if (!username || !password)
     return res.status(400).json({ error: "All fields are mandatory!" });
-  }
 
-  const query = "SELECT * FROM app_users WHERE username = ? AND pass = ?";
-  db.query(query, [username, password], (err, results) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).json({ error: "Database error" });
-    }
+  const query = "SELECT * FROM app_users WHERE username = ?";
+  db.query(query, [username], async (err, results) => {
+    if (err) return res.status(500).json({ error: "Database error" });
 
-    if (results.length === 0) {
+    const user = results[0];
+    const passwordMatch = await bcrypt.compare(password, user.pass);
+
+    if (!passwordMatch)
       return res.status(401).json({ error: "Invalid username or password!" });
-    }
 
-    res.json({ message: "Login succesfull", userId: results[0].id });
+    res.json({ message: "Login successful", userId: user.id });
   });
 });
 
