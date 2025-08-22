@@ -2,7 +2,7 @@
 import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 
-let showDiv = ref(false);
+let showDiv = ref(localStorage.getItem("showDiv") === "true" ? true : false);
 let showPassword = ref(false);
 
 let loginUsername = ref("");
@@ -36,6 +36,7 @@ watch(username, (newVal) => {
 
 //DELETES PREVIOUS DATA IN INPUT FIELDS
 watch(showDiv, (newVal) => {
+  localStorage.setItem("showDiv", newVal);
   if (newVal) {
     loginUsername.value = "";
     loginPassword.value = "";
