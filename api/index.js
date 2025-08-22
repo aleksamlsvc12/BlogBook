@@ -41,18 +41,18 @@ app.post("/signup", (req, res) => {
         .status(400)
         .json({ error: "Email or username already exists" });
     }
-  });
 
-  const query =
-    "INSERT INTO app_users (username, email, pass) VALUES (?, ?, ?)";
-  db.query(query, [username, email, password], (err, results) => {
-    if (err) {
-      console.error(err);
-      return res
-        .status(500)
-        .json({ error: "Error inserting data to the database!" });
-    }
-    res.json({ message: "Sign Up Succesfull!", userId: results.insertId });
+    const insertQuery =
+      "INSERT INTO app_users (username, email, pass) VALUES (?, ?, ?)";
+    db.query(insertQuery, [username, email, password], (err, results) => {
+      if (err) {
+        console.error(err);
+        return res
+          .status(500)
+          .json({ error: "Error inserting data into database" });
+      }
+      res.json({ message: "Sign Up Successful!", userId: results.insertId });
+    });
   });
 });
 
