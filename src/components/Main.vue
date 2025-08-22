@@ -39,7 +39,7 @@ watch(showDiv, (newVal) => {
   if (newVal) {
     loginUsername.value = "";
     loginPassword.value = "";
-  }else{
+  } else {
     signupUsername.value = "";
     signupPassword.value = "";
     signupEmail.value = "";
@@ -118,12 +118,21 @@ const handleLogOut = () => {
         <div class="flex flex-col gap-5">
           <div>
             <label for="username">Username:</label>
-            <input type="text" v-model="signupUsername" />
+            <input
+              type="text"
+              v-model="signupUsername"
+              pattern="[A-Za-z0-9]{8,}"
+              title="Username must be at least 8 characters long and contain only letters and numbers!"
+            />
           </div>
 
           <div>
             <label for="email ">Email:</label>
-            <input type="text" v-model="signupEmail" />
+            <input
+              type="email"
+              v-model="signupEmail"
+              title="Enter a valid email address"
+            />
           </div>
 
           <div>
@@ -133,6 +142,8 @@ const handleLogOut = () => {
                 :type="showPassword ? 'text' : 'password'"
                 class="bigger-padding-right"
                 v-model="signupPassword"
+                pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+                title="Password must be at least 8 characters long, include letters, numbers, and at least one special character!"
               />
               <i
                 class="pi absolute top-1/3 right-3 cursor-pointer"
