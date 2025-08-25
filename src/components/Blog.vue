@@ -6,14 +6,18 @@ const props = defineProps({
 
 <template>
   <div
-    class="w-full bg-blue-300 p-6 rounded-xl flex flex-col justify-between shadow-lg mb-10"
+    class="w-full bg-gradient-to-r from-blue-800 via-blue-600 to-blue-400 p-6 rounded-2xl shadow-xl mb-8"
   >
-    <div>
-      <p class="font-bold text-2xl text-white">{{ blog.blog_title }}</p>
-      <p class="mt-1 mb-2 italic text-blue-600">by {{ blog.blog_author }} | {{ blog.created_at }}</p>
+    <div class="mb-4">
+      <p class="font-extrabold text-2xl text-white tracking-wide">
+        {{ blog.blog_title }}
+      </p>
+      <p class="mt-1 text-sm italic text-gray-200">
+        by {{ blog.blog_author }} | {{ blog.created_at.slice(0,10) }}
+      </p>
     </div>
 
-    <p class="h-[60%] text-white">
+    <p class="text-white">
       {{ blog.blog_content }}
     </p>
   </div>
