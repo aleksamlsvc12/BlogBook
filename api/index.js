@@ -83,4 +83,14 @@ app.post("/login", (req, res) => {
   });
 });
 
+app.get("/blogs", (req, res) => {
+  db.query("SELECT * FROM blogs ORDER BY created_at DESC", (err, results) => {
+    if (err) {
+      console.error("Error fetching blogs:", err);
+      return res.status(500).json({ error: "Error fetching blogs!" });
+    }
+    res.json(results);
+  });
+});
+
 app.listen(3000, () => console.log("Server live at port 3000"));
