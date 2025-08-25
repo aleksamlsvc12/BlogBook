@@ -8,6 +8,8 @@ This project not only showcases a functional blogging system but also emphasizes
 
 ## Installation
 
+git clone (repo link)
+
 ### Backend
 
 Go to api foldere and run 
