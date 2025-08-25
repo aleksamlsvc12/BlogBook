@@ -26,14 +26,6 @@ Go to api folder and run:
 ```
 node index.js
 ```
-If error appears, just run inside api folder:
-
-```
-npm install bcrypt
-node index.js
-```
-
-
 
 ### Frontend
 
