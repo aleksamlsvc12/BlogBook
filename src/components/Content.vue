@@ -9,7 +9,7 @@ const emit = defineEmits(["logout"]);
 <template>
   <div class="w-[90%] sm:w-[95%] h-[90%] flex flex-col">
     <div class="flex items-center justify-between bg-white rounded-2xl p-4">
-      <p class="text-3xl font-bold">Welcome {{ username }}</p>
+      <p class="text-3xl font-bold text-blue-600"><span class="text-black">Welcome</span> {{ username }}</p>
       <button @click="emit('logout')"
               class="bg-blue-600 text-white font-bold cursor-pointer text-sm p-2 pl-6 pr-6 rounded-full">
         Logout

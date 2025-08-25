@@ -24,8 +24,8 @@ watch([isLoggedIn, username], ([newLogin, newUser]) => {
 });
 
 const handleLoginSuccess = (user) => {
-  username.value = user;   // prvo username
-  isLoggedIn.value = true; // tek onda flag
+  username.value = user;
+  isLoggedIn.value = true;
 };
 
 
