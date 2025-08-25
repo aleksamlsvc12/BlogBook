@@ -16,18 +16,18 @@ onMounted(() => {
   }
 });
 
-watch(isLoggedIn, (newVal) => {
-  localStorage.setItem("isLoggedIn", newVal);
-});
-
-watch(username, (newVal) => {
-  localStorage.setItem("username", newVal);
+watch([isLoggedIn, username], ([newLogin, newUser]) => {
+  localStorage.setItem("isLoggedIn", newLogin ? "true" : "false");
+  if (newUser) {
+    localStorage.setItem("username", newUser);
+  }
 });
 
 const handleLoginSuccess = (user) => {
-  isLoggedIn.value = true;
-  username.value = user;
+  username.value = user;   // prvo username
+  isLoggedIn.value = true; // tek onda flag
 };
+
 
 const handleLogout = () => {
   isLoggedIn.value = false;
